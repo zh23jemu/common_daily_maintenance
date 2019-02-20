@@ -582,7 +582,7 @@ $imageHead = 'D:\Work\headpic.jpg'
 
 foreach ($item in $mails)
 {
-    $imageQR = 'D:\' + $item +'.png'
+    $imageQR = 'D:\work\' + $item +'.png'
     $images = @{ 
         imageQR = $imageQR
         imageHead = $imageHead
@@ -752,8 +752,8 @@ foreach ($item in $mails)
         Subject = 'Win as One_2019 ADEN management seminar' 
         From = 'ADEN IT Communications <it.communications@adenservices.com>' 
         To = $item
-        Cc = 'billy.zhou@adenservices.com' 
-        SmtpServer = 'smtprelay.it.adenservices.com' 
+        SmtpServer = 'smtprelay.it.adenservices.com'
+        DeliveryNotificationOption = 'OnFailure'
     } 
  
 Send-MailMessage @params
