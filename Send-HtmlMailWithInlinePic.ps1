@@ -576,19 +576,28 @@ function Send-MailMessage
 
 } # function Send-MailMessage
 
+$seatsDay = Import-Csv 'D:\Work\04. Projects\201902_Annual_Meeting\DayQR1.csv'
 
-$mails = Get-Content D:\mails.txt
-$imageHead = 'D:\Work\headpic.jpg'
 
-foreach ($item in $mails)
+$day = 'D:\Work\04. Projects\201902_Annual_Meeting\day.jpg'
+$night = 'D:\Work\04. Projects\201902_Annual_Meeting\night.jpg'
+
+foreach ($item in $seatsDay)
 {
-    $imageQR = 'D:\work\' + $item +'.png'
-    $images = @{ 
-        imageQR = $imageQR
-        imageHead = $imageHead
-            }  
+    $imageQR = 'D:\Work\04. Projects\201902_Annual_Meeting\QRCode_day\' + $item.email +'.png'
+    #$imageQR = 'D:\Work\04. Projects\201902_Annual_Meeting\QRCode_night\' + $item +'.png'
 
-    $body = @' 
+    if (Test-Path $imageQR)
+    {
+        $images = @{
+            day = $day
+            night = $night 
+            imageQR = $imageQR
+                }  
+
+
+        $tableNo = $item.table
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            $body = @' 
     <html>
 
     <head>
@@ -638,124 +647,160 @@ foreach ($item in $mails)
 
     <body lang=ZH-CN>
 
-    <div class=WordSection1>
+<div class=WordSection1>
 
-    <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 align=left
-     style='border-collapse:collapse;margin-left:6.75pt;margin-right:6.75pt'>
-     <tr>
-      <td width=754 colspan=2 valign=top style='width:565.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal><span lang=EN-US><b><span style='color:black'><img
-      width=755 height=258 src="cid:imageHead"></span></b></span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=754 colspan=2 valign=top style='width:565.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal align=center style='text-align:center'><i><span
-      lang=EN-US style='color:black'>&nbsp;</span></i></p>
-      <p class=MsoNormal align=center style='text-align:center'><i><span
-      lang=EN-US style='color:black'>Thanks for your participation.</span></i></p>
-      <p class=MsoNormal align=center style='text-align:center'><i><span
-      style='font-family:"微软雅黑",sans-serif;color:black'>感谢您的参与。</span></i></p>
-      <p class=MsoNormal align=center style='text-align:center'><i><span
-      lang=EN-US style='color:black'>&nbsp;</span></i></p>
-      <p class=MsoNormal align=center style='text-align:center'><i><span
-      lang=EN-US style='color:black'>Please keep below QR code for registration on
-      the day of the event.</span></i></p>
-      <p class=MsoNormal align=center style='text-align:center'><i><span
-      style='font-family:"微软雅黑",sans-serif;color:black'>活动当天请使用以下二维码于会议现场签到。</span></i></p>
-      <p class=MsoNormal align=center style='text-align:center'><span lang=EN-US><img
-      width=246 height=246 id="Picture 3" src="cid:imageQR"></span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=754 colspan=2 valign=top style='width:565.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal><span lang=EN-US style='color:black'>&nbsp;</span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal align=right style='text-align:right'><span lang=EN-US
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>Time </span><span
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>时间 </span></p>
-      </td>
-      <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
-      <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>9am</span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal align=right style='text-align:right'><span lang=EN-US
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>Date </span><span
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>日期</span></p>
-      </td>
-      <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
-      <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>2019.2.22</span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal align=right style='text-align:right'><span lang=EN-US
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>Venue </span><span
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>场地</span></p>
-      </td>
-      <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
-      <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>Oriental Conference Center</span></p>
-      <p class=MsoNormal><span style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>东方万国宴会中心</span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal align=right style='text-align:right'><span lang=EN-US
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>Address </span><span
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>地址</span></p>
-      </td>
-      <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
-      <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>No.1599 xinjinqiao RD, Pudong, Shanghai</span></p>
-      <p class=MsoNormal><span style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>上海市浦东新区新金桥路<span lang=EN-US>1599</span>号</span></p>
-      </td>
-     </tr>
-     <tr>
-      <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
-      <p class=MsoNormal align=right style='text-align:right'><span lang=EN-US
-      style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;color:black'>Dress Code
-      </span><span style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>着装</span></p>
-      </td>
-      <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
-      <p class=MsoNormal><span lang=EN-US style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>Business</span></p>
-      <p class=MsoNormal><span style='font-size:10.0pt;font-family:"微软雅黑",sans-serif;
-      color:black'>商务</span></p>
-      </td>
-     </tr>
-    </table>
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 align=left
+ style='border-collapse:collapse;margin-left:6.75pt;margin-right:6.75pt;
+ margin-bottom:5.75pt'>
+ <tr>
+  <td width=754 colspan=2 valign=top style='width:565.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='line-height:105%'><b><span lang=EN-US
+  style='color:black'><img width=755 height=258 src="cid:day"></span></b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=754 colspan=2 valign=top style='width:565.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:black'>&nbsp;</span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:black'>Thanks for your participation.<u1:p></u1:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  style='font-family:"微软雅黑",sans-serif;color:black'>感谢您的参与。</span></i><span
+  lang=EN-US><u1:p></u1:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:#1F497D'><u1:p>&nbsp;</u1:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:black'>Your Table Number in the seminar is <u1:p></u1:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  style='font-family:宋体;color:black'>您于白天会议的桌号为</span></i><span lang=EN-US><u1:p></u1:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:#1F497D'><u1:p>&nbsp;</u1:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><b><i><span
+  style='font-size:14.0pt;line-height:105%;font-family:宋体;color:black;
+  '>tableNo</span></i></b><span lang=EN-US><u1:p></u1:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:#1F497D'><u1:p>&nbsp;</u1:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><i><span
+  lang=EN-US style='color:black'>Please keep below QR code on your phone for
+  registration on the day of the event.<u1:p></u1:p></span></i></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><span
+  style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif'>请将以下二维码保存于您的手机中，<span
+  style='color:black'>活动</span>当天需使用该二维码<span style='color:black'>于会场签到。</span></span><span
+  lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=754 colspan=2 valign=top style='width:565.8pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:105%'><span
+  lang=EN-US><img width=246 height=246 src="cid:imageQR"><span
+  style='color:black'>&nbsp;</u1:p></span></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=right style='text-align:right;line-height:105%'><span
+  lang=EN-US style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Time </span><span style='font-size:10.0pt;line-height:105%;
+  font-family:"微软雅黑",sans-serif;color:black'>时间 </span><span lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+  <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoNormal style='line-height:105%'><span lang=EN-US
+  style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>9am<u1:p></u1:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=right style='text-align:right;line-height:105%'><span
+  lang=EN-US style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Date </span><span style='font-size:10.0pt;line-height:105%;
+  font-family:"微软雅黑",sans-serif;color:black'>日期</span><span lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+  <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoNormal style='line-height:105%'><span lang=EN-US
+  style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>2019.2.22<u1:p></u1:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=right style='text-align:right;line-height:105%'><span
+  lang=EN-US style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Venue </span><span style='font-size:10.0pt;line-height:105%;
+  font-family:"微软雅黑",sans-serif;color:black'>场地</span><span lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+  <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoNormal style='line-height:105%'><span lang=EN-US
+  style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Oriental Conference Center<u1:p></u1:p></span></p>
+  <p class=MsoNormal style='line-height:105%'><span style='font-size:10.0pt;
+  line-height:105%;font-family:"微软雅黑",sans-serif;color:black'>东方万国宴会中心</span><span
+  lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=right style='text-align:right;line-height:105%'><span
+  lang=EN-US style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Address </span><span style='font-size:10.0pt;line-height:105%;
+  font-family:"微软雅黑",sans-serif;color:black'>地址</span><span lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+  <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoNormal style='line-height:105%'><span lang=EN-US
+  style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>No.1599 <span class=spelle>xinjinqiao</span> RD, Pudong, Shanghai<u1:p></u1:p></span></p>
+  <p class=MsoNormal style='line-height:105%'><span style='font-size:10.0pt;
+  line-height:105%;font-family:"微软雅黑",sans-serif;color:black'>上海市浦东新区新金桥路<span
+  lang=EN-US>1599</span>号</span><span lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=371 valign=top style='width:278.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=right style='text-align:right;line-height:105%'><span
+  lang=EN-US style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Dress Code </span><span style='font-size:10.0pt;line-height:
+  105%;font-family:"微软雅黑",sans-serif;color:black'>着装</span><span lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+  <td width=383 valign=top style='width:287.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=MsoNormal style='line-height:105%'><span lang=EN-US
+  style='font-size:10.0pt;line-height:105%;font-family:"微软雅黑",sans-serif;
+  color:black'>Business<u1:p></u1:p></span></p>
+  <p class=MsoNormal style='line-height:105%'><span style='font-size:10.0pt;
+  line-height:105%;font-family:"微软雅黑",sans-serif;color:black'>商务</span><span
+  lang=EN-US><u1:p></u1:p></span></p>
+  </td>
+ </tr>
+</table>
 
-    <p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
+<p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
 
-    </div>
+</div>
 
-    </body>
+</body>
 
     </html>
-'@   
+'@
+
+    $body2 = $body -replace "tableNo",$tableNo
   
-    $params = @{ 
-        InlineAttachments = $images 
-        Body = $body 
-        BodyAsHtml = $true 
-        Subject = 'Win as One_2019 ADEN management seminar' 
-        From = 'ADEN IT Communications <it.communications@adenservices.com>' 
-        To = $item
-        SmtpServer = 'smtprelay.it.adenservices.com'
-        DeliveryNotificationOption = 'OnFailure'
-    } 
+        $params = @{ 
+            InlineAttachments = $images 
+            Body = $body2
+            BodyAsHtml = $true 
+            Subject = 'Win as One_2019 ADEN management seminar' 
+            From = 'ADEN IT Communications <it.communications@adenservices.com>' 
+            To = $item.email
+            #To = 'billy.zhou@adenservices.com'
+            Bcc = 'billy.zhou@adenservices.com'
+            SmtpServer = 'smtprelay.it.adenservices.com'
+            DeliveryNotificationOption = 'OnFailure'
+        } 
  
-Send-MailMessage @params
+    Send-MailMessage @params
+    }
+    else
+    {
+        "no QR code for " + $item.email
+    }
 }
 
